@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagamentoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ReservaCarroTeste</a> &gt; <a href="index.source.html" class="el_package">br.edu.ifsp.bra.aplicacao</a> &gt; <span class="el_source">PagamentoService.java</span></div><h1>PagamentoService.java</h1><pre class="source lang-java linenums">package br.edu.ifsp.bra.aplicacao;
+
+import br.edu.ifsp.bra.dominio.FormaPagamento;
+import br.edu.ifsp.bra.dominio.Pagamento;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L8">public class PagamentoService {</span>
+
+    private Double valor;
+
+    public Double aplicarDesconto(FormaPagamento formaPagamento) {
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">        if (formaPagamento == null) {</span>
+<span class="nc" id="L14">            return 1.0; // Sem alteração</span>
+        }
+
+<span class="fc bfc" id="L17" title="All 3 branches covered.">        switch (formaPagamento) {</span>
+            case PIX_AVISTA:
+<span class="fc" id="L19">                return 0.90; // 10% de desconto</span>
+            case CARTAO_AVISTA:
+<span class="fc" id="L21">                return 0.95; // 5% de desconto</span>
+            case CARTAO_PARCELADO:
+            default:
+<span class="fc" id="L24">                return 1.0;  // Preço normal</span>
+        }
+    }
+
+    public Boolean processarPagamento(Pagamento pagamento) {
+<span class="pc bpc" id="L29" title="2 of 6 branches missed.">        if (pagamento == null || pagamento.getValor() == null || pagamento.getValor() &lt;= 0) {</span>
+<span class="fc" id="L30">            return false;</span>
+        }
+
+        // RN02: Não é permitido parcelar em mais de 5 vezes
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (pagamento.getFormaPagamento() == FormaPagamento.CARTAO_PARCELADO) {</span>
+<span class="pc bpc" id="L35" title="2 of 6 branches missed.">            if (pagamento.getParcelas() == null || pagamento.getParcelas() &lt; 1 || pagamento.getParcelas() &gt; 5) {</span>
+<span class="fc" id="L36">                pagamento.setAprovado(false);</span>
+<span class="fc" id="L37">                return false;</span>
+            }
+        } else {
+<span class="fc" id="L40">            pagamento.setParcelas(1);</span>
+        }
+
+<span class="fc" id="L43">        pagamento.setAprovado(true);</span>
+<span class="fc" id="L44">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
