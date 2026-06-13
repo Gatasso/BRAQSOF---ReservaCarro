@@ -1,0 +1,165 @@
+@startuml
+class br.edu.ifsp.bra.Main {
++ {static} void main(String[])
+}
+
+class br.edu.ifsp.bra.controller.ValidacaoCNHController {
+- ValidacaoCNHService validacaoCNHService
++ ResponseEntity<Boolean> validarCNH(Condutor)
+}
+
+
+class br.edu.ifsp.bra.dominio.Pagamento {
+- Long id
+- Double valor
+- Integer parcelas
+- Boolean aprovado
+- FormaPagamento formaPagamento
++ Long getId()
++ void setId(Long)
++ Double getValor()
++ void setValor(Double)
++ Integer getParcelas()
++ void setParcelas(Integer)
++ Boolean getAprovado()
++ void setAprovado(Boolean)
++ FormaPagamento getFormaPagamento()
++ void setFormaPagamento(FormaPagamento)
+}
+
+
+class br.edu.ifsp.bra.aplicacao.ValidacaoCNHService {
++ boolean validarCNH(Condutor)
+}
+
+class br.edu.ifsp.bra.controller.ReservaController {
+- ReservaService reservaService
++ ResponseEntity<Reserva> criarReserva(RequisicaoReserva)
+}
+
+
+class br.edu.ifsp.bra.controller.ReservaController$RequisicaoReserva {
++ Long clienteId
++ Long carroId
++ Condutor condutor
++ Pagamento pagamento
+}
+
+class br.edu.ifsp.bra.dominio.Condutor {
+- Long id
+- String nome
+- String numeroCNH
+- LocalDate validadeCNH
++ Long getId()
++ void setId(Long)
++ String getNome()
++ void setNome(String)
++ String getNumeroCNH()
++ void setNumeroCNH(String)
++ LocalDate getValidadeCNH()
++ void setValidadeCNH(LocalDate)
+}
+
+
+class br.edu.ifsp.bra.aplicacao.PagamentoService {
+- Double valor
++ Double aplicarDesconto(FormaPagamento)
++ Boolean processarPagamento(Pagamento)
+}
+
+
+class br.edu.ifsp.bra.dominio.Reserva {
+- Long id
+- Date dataInicio
+- Date dataFim
+- Double valorTotal
+- String status
+- Cliente cliente
+- Condutor condutor
+- Carro carro
+- Pagamento pagamento
++ Long getId()
++ void setId(Long)
++ Date getDataInicio()
++ void setDataInicio(Date)
++ Date getDataFim()
++ void setDataFim(Date)
++ Double getValorTotal()
++ void setValorTotal(Double)
++ String getStatus()
++ void setStatus(String)
++ Cliente getCliente()
++ void setCliente(Cliente)
++ Condutor getCondutor()
++ void setCondutor(Condutor)
++ Carro getCarro()
++ void setCarro(Carro)
++ Pagamento getPagamento()
++ void setPagamento(Pagamento)
+}
+
+
+class br.edu.ifsp.bra.dominio.Carro {
+- Long id
+- String modelo
+- String placa
+- Boolean disponivel
+- Double valorDiaria
++ Long getId()
++ void setId(Long)
++ String getModelo()
++ void setModelo(String)
++ String getPlaca()
++ void setPlaca(String)
++ Boolean getDisponivel()
++ void setDisponivel(Boolean)
++ Double getValorDiaria()
++ void setValorDiaria(Double)
+}
+
+
+enum br.edu.ifsp.bra.dominio.FormaPagamento {
++  PIX_AVISTA
++  CARTAO_AVISTA
++  CARTAO_PARCELADO
+}
+
+class br.edu.ifsp.bra.dominio.Cliente {
+- Long id
+- String nome
+- String email
+- String telefone
++ Long getId()
++ void setId(Long)
++ String getNome()
++ void setNome(String)
++ String getEmail()
++ void setEmail(String)
++ String getTelefone()
++ void setTelefone(String)
+}
+
+
+class br.edu.ifsp.bra.aplicacao.ReservaService {
+- Date dataInicio
+- Date dataFim
+- Long carroId
+- Integer dias
+- ValidacaoCNHService validacaoCNHService
+- PagamentoService pagamentoService
++ Boolean verificarDisponibilidade(Date)
++ Double calcularValor(Pagamento)
++ Reserva reservarCarro(Long,Long,Condutor,Pagamento)
+}
+
+
+class br.edu.ifsp.bra.controller.PagamentoController {
+- PagamentoService pagamentoService
++ ResponseEntity<Pagamento> processarPagamento(Pagamento)
+}
+
+
+
+
+br.edu.ifsp.bra.controller.ReservaController +.. br.edu.ifsp.bra.controller.ReservaController$RequisicaoReserva
+@enduml
