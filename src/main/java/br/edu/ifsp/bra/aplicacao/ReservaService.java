@@ -1,8 +1,11 @@
 package br.edu.ifsp.bra.aplicacao;
 
 import br.edu.ifsp.bra.dominio.*;
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
 
+@Service
 public class ReservaService {
     private Date dataInicio;
     private Date dataFim;

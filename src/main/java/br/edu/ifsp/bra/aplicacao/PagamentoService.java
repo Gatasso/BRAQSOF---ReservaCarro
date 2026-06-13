@@ -2,7 +2,9 @@ package br.edu.ifsp.bra.aplicacao;
 
 import br.edu.ifsp.bra.dominio.FormaPagamento;
 import br.edu.ifsp.bra.dominio.Pagamento;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PagamentoService {
 
     private Double valor;
